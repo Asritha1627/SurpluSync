@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate Food | SurplusSync</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 16px;
+            font-family: Arial, sans-serif;
+            background: #f2f7f1;
+            color: #193b2c;
+        }
+
+        .container {
+            max-width: 560px;
+            margin: 20px auto;
+            padding: 32px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px #173b2b12;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d5e1d7;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 24px;
+            padding: 14px;
+            border: 0;
+            border-radius: 8px;
+            background: #20835b;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #176b49;
+        }
+
+        .location-button {
+            margin-top: 14px;
+            background: #245c9c;
+        }
+
+        .location-button:hover {
+            background: #194777;
+        }
+
+        #locationMessage {
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        a {
+            color: #20835b;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <h1>🥗 Donate Surplus Food</h1>
+        <p>Share extra food and help meals reach people who need them.</p>
+
+        <form action="/donate" method="POST">
+
+            <label for="donor">Restaurant / Donor Name</label>
+            <input id="donor" name="donor" required>
+
+            <label for="food_name">Food Name</label>
+            <input
+                id="food_name"
+                name="food_name"
+                placeholder="e.g. Vegetable rice"
+                required
+            >
+
+            <label for="quantity">Quantity (portions)</label>
+            <input
+                id="quantity"
+                name="quantity"
+                type="number"
+                min="1"
+                required
+            >
+
+            <label for="location">Pickup Location</label>
+            <input
+                id="location"
+                name="location"
+                placeholder="Enter pickup address"
+                required
+            >
+
+            <!-- Coordinates are submitted with the form -->
+            <input type="hidden" name="latitude" id="latitude">
+            <input type="hidden" name="longitude" id="longitude">
+
+            <button
+                type="button"
+                class="location-button"
+                onclick="capturePickupLocation()"
+            >
+                📍 Use My Location for Pickup
+            </button>
+
+            <p id="locationMessage" role="status" aria-live="polite">
+                Tap the location button and allow browser location access
+                to enable nearby food matching.
+            </p>
+
+            <label for="expiry">Safe Until (date and time)</label>
+            <input
+                id="expiry"
+                name="expiry"
+                type="datetime-local"
+                required
+            >
+
+            <button type="submit">Submit Food Donation</button>
+        </form>
+
+        <p><a href="/">← Back to Home</a></p>
+    </main>
+
+    <script>
+        function capturePickupLocation() {
+            const message = document.getElementById("locationMessage");
+            const latitudeInput = document.getElementById("latitude");
+            const longitudeInput = document.getElementById("longitude");
+
+            if (!navigator.geolocation) {
+                message.textContent =
+                    "Your browser does not support location access.";
+                return;
+            }
+
+            message.textContent = "Getting your location...";
+
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+    document.getElementById("latitude").value =
+        position.coords.latitude;
+
+    document.getElementById("longitude").value =
+        position.coords.longitude;
+
+    document.getElementById("locationMessage").textContent =
+        "Location captured! Lat: " +
+        document.getElementById("latitude").value +
+        ", Lon: " +
+        document.getElementById("longitude").value;
+},
+                function (error) {
+                    latitudeInput.value = "";
+                    longitudeInput.value = "";
+
+                    if (error.code === error.PERMISSION_DENIED) {
+                        message.textContent =
+                            "Location permission denied. Allow location access and try again.";
+                    } else {
+                        message.textContent =
+                            "Could not get your location. Please try again.";
+                    }
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 0
+                }
+            );
+        }
+    </script>
+</body>
+</html>
+

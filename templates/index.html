@@ -1,0 +1,971 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#176b45">
+    <title>SurplusSync | Good Food, Less Waste</title>
+    <meta name="description" content="SurplusSync connects surplus food donors with nearby communities to reduce food waste and share meals.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --green: #176b45;
+            --green-dark: #104b33;
+            --green-light: #eaf5e9;
+            --cream: #faf9f1;
+            --text: #19382a;
+            --muted: #65766b;
+            --white: #ffffff;
+            --shadow: 0 15px 45px rgba(24, 69, 44, 0.10);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 90px;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        .container {
+            width: min(1160px, 90%);
+            margin: auto;
+        }
+
+        /* NAVIGATION */
+
+        .navbar {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid #e8eee5;
+            backdrop-filter: blur(15px);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: "Manrope", sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            white-space: nowrap;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            display: grid;
+            place-items: center;
+            background: var(--green-light);
+            border-radius: 14px;
+            font-size: 24px;
+        }
+
+        .brand-name span {
+            color: var(--green);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #516257;
+            font-size: 13px;
+            font-weight: 700;
+            transition: color .2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .nav-links .nav-cta {
+            padding: 12px 17px;
+            background: var(--green);
+            color: white;
+            border-radius: 10px;
+        }
+
+        .nav-links .nav-cta:hover {
+            background: var(--green-dark);
+            color: white;
+        }
+
+        .menu-toggle {
+            display: none;
+            padding: 7px 12px;
+            background: white;
+            border: 1px solid #dce7dc;
+            border-radius: 9px;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        /* HERO - VISIBLE BACKGROUND IMAGE */
+
+        .hero {
+            min-height: 650px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background-color: #dcebd6;
+
+            background-image:
+                linear-gradient(
+                    90deg,
+                    rgba(249, 250, 241, 0.72) 0%,
+                    rgba(249, 250, 241, 0.45) 38%,
+                    rgba(249, 250, 241, 0.08) 100%
+                ),
+                url("/static/images/surplussync-background.png");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero-content {
+            max-width: 680px;
+            padding: 75px 0;
+            animation: fadeUp .8s ease both;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 24px;
+            padding: 8px 14px;
+            background: #e7f3df;
+            color: var(--green);
+            border: 1px solid #d5e9ce;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow-dot {
+            width: 8px;
+            height: 8px;
+            background: #40a764;
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            margin-bottom: 23px;
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(44px, 6vw, 72px);
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1.1;
+            text-shadow: 0 1px 10px rgba(255, 255, 255, 0.12);
+        }
+
+        .hero h1 span {
+            color: var(--green);
+        }
+
+        .hero-description {
+            max-width: 550px;
+            margin-bottom: 30px;
+            color: #344f3d;
+            font-size: 17px;
+            line-height: 1.9;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            min-height: 51px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            padding: 14px 21px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            transition: transform .2s, background .2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.94);
+            color: var(--green);
+            border-color: #d5e2d3;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+        }
+
+        .hero-note {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            color: #344f3d;
+            font-size: 13px;
+        }
+
+        .avatar-stack {
+            display: flex;
+            padding-left: 5px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            margin-left: -5px;
+            background: #e0efd8;
+            border: 2px solid white;
+            border-radius: 50%;
+            font-size: 15px;
+        }
+
+        /* IMPACT */
+
+        .impact-strip {
+            padding: 29px 0;
+            background: white;
+            border-bottom: 1px solid #e8eee5;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .impact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .impact-icon {
+            width: 49px;
+            height: 49px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            background: var(--green-light);
+            border-radius: 15px;
+            font-size: 23px;
+        }
+
+        .impact-item strong {
+            display: block;
+            font-family: "Manrope", sans-serif;
+            font-size: 19px;
+        }
+
+        .impact-item p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            padding: 90px 0;
+        }
+
+        .section-heading {
+            max-width: 650px;
+            margin: 0 auto 45px;
+            text-align: center;
+        }
+
+        .section-label {
+            margin-bottom: 12px;
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .section-heading h2 {
+            margin-bottom: 14px;
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(29px, 4vw, 43px);
+            line-height: 1.2;
+            letter-spacing: -1.5px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* FEATURES */
+
+        .features {
+            background: #f5f7ee;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 23px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            background: white;
+            border: 1px solid #e7ece2;
+            border-radius: 19px;
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow);
+        }
+
+        .feature-icon {
+            width: 59px;
+            height: 59px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 21px;
+            background: #edf6e9;
+            border-radius: 17px;
+            font-size: 28px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 10px;
+            font-family: "Manrope", sans-serif;
+            font-size: 19px;
+        }
+
+        .feature-card p {
+            margin-bottom: 19px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .text-link {
+            color: var(--green);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .text-link:hover {
+            text-decoration: underline;
+        }
+
+        /* HOW IT WORKS */
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .step {
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        .step-number {
+            width: 63px;
+            height: 63px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 19px;
+            background: var(--green);
+            color: white;
+            border-radius: 20px;
+            font-family: "Manrope", sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .step h3 {
+            margin-bottom: 10px;
+            font-family: "Manrope", sans-serif;
+            font-size: 18px;
+        }
+
+        .step p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* CALL TO ACTION */
+
+        .cta-section {
+            padding: 20px 0 85px;
+        }
+
+        .cta-box {
+            padding: 58px 30px;
+            background: linear-gradient(135deg, #145b3c, #238151);
+            color: white;
+            border-radius: 25px;
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            margin-bottom: 14px;
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            line-height: 1.2;
+        }
+
+        .cta-box p {
+            max-width: 590px;
+            margin: 0 auto 26px;
+            color: #e0eee4;
+            font-size: 15px;
+        }
+
+        .cta-box .btn {
+            background: white;
+            color: var(--green);
+        }
+
+        .cta-box .btn:hover {
+            background: #f0f7eb;
+        }
+
+        /* FOOTER */
+
+        footer {
+            padding: 44px 0 20px;
+            background: #103d2a;
+            color: white;
+        }
+
+        .footer-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 35px;
+            padding-bottom: 32px;
+        }
+
+        .footer-brand {
+            max-width: 360px;
+        }
+
+        .footer-brand .brand {
+            margin-bottom: 14px;
+        }
+
+        .footer-brand p {
+            color: #c3d6c9;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 23px;
+        }
+
+        .footer-links a {
+            color: #d8e7dc;
+            font-size: 13px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            padding-top: 20px;
+            border-top: 1px solid #ffffff20;
+            color: #b9d0c0;
+            font-size: 12px;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* TABLET */
+
+        @media (max-width: 850px) {
+            .nav-links {
+                gap: 13px;
+            }
+
+            .nav-links a {
+                font-size: 11px;
+            }
+
+            .hero {
+                min-height: 590px;
+                background-position: 58% center;
+            }
+
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+            .navbar {
+                min-height: 70px;
+            }
+
+            .brand {
+                font-size: 21px;
+            }
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 22px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 69px;
+                left: 0;
+                right: 0;
+                padding: 22px 5%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 18px;
+                background: white;
+                border-bottom: 1px solid #e7eee4;
+                box-shadow: 0 15px 20px #123e2810;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 4px 0;
+                font-size: 14px;
+            }
+
+            .nav-links .nav-cta {
+                padding: 12px;
+                text-align: center;
+            }
+
+            .hero {
+                min-height: 600px;
+                background-image:
+                    linear-gradient(
+                        90deg,
+                        rgba(249, 250, 241, 0.60),
+                        rgba(249, 250, 241, 0.28)
+                    ),
+                    url("/static/images/surplussync-background.png");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            .hero-content {
+                padding: 60px 0;
+            }
+
+            .hero h1 {
+                font-size: clamp(39px, 11vw, 55px);
+                letter-spacing: -2px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+                line-height: 1.8;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .impact-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .impact-item {
+                justify-content: flex-start;
+                padding-left: 12%;
+            }
+
+            .section {
+                padding: 65px 0;
+            }
+
+            .feature-grid,
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 17px;
+            }
+
+            .feature-card {
+                padding: 25px;
+            }
+
+            .cta-section {
+                padding-bottom: 60px;
+            }
+
+            .cta-box {
+                padding: 42px 22px;
+            }
+
+            .footer-top {
+                flex-direction: column;
+            }
+
+            .footer-links {
+                gap: 16px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="container nav-inner">
+            <a href="/" class="brand" aria-label="SurplusSync home">
+                <span class="brand-icon">🥗</span>
+                <span class="brand-name">Surplus<span>Sync</span></span>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle"
+                    aria-label="Toggle navigation"
+                    aria-expanded="false"
+                    aria-controls="navLinks">
+                ☰
+            </button>
+
+            <nav class="nav-links" id="navLinks">
+                <a href="/">Home</a>
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="/donations">Donations</a>
+                <a href="/nearby">Nearby Food</a>
+                <a href="/donate" class="nav-cta">＋ Donate Food</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="eyebrow">
+                        <span class="eyebrow-dot"></span>
+                        Food sharing, made meaningful
+                    </div>
+
+                    <h1>
+                        Good food.<br>
+                        <span>Better future.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Every meal deserves a purpose. SurplusSync connects
+                        surplus food with nearby communities, helping reduce
+                        food waste and make sharing easier.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="/donate" class="btn btn-primary">
+                            🥗 Donate Surplus Food →
+                        </a>
+
+                        <a href="/nearby" class="btn btn-secondary">
+                            📍 Find Nearby Food
+                        </a>
+                    </div>
+
+                    <div class="hero-note">
+                        <div class="avatar-stack" aria-hidden="true">
+                            <span class="avatar">🥦</span>
+                            <span class="avatar">🍱</span>
+                            <span class="avatar">🤝</span>
+                        </div>
+                        <span>Share what you can. Make a difference.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="impact-strip" aria-label="Our mission">
+            <div class="container impact-grid">
+                <div class="impact-item">
+                    <div class="impact-icon">♻️</div>
+                    <div>
+                        <strong>Less Waste</strong>
+                        <p>Give surplus food a second purpose</p>
+                    </div>
+                </div>
+
+                <div class="impact-item">
+                    <div class="impact-icon">🍲</div>
+                    <div>
+                        <strong>More Meals</strong>
+                        <p>Help food reach people who need it</p>
+                    </div>
+                </div>
+
+                <div class="impact-item">
+                    <div class="impact-icon">📍</div>
+                    <div>
+                        <strong>Nearby Sharing</strong>
+                        <p>Connect local donors and recipients</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section features" id="features">
+            <div class="container">
+                <div class="section-heading">
+                    <div class="section-label">What we do</div>
+                    <h2>A little sharing goes a long way.</h2>
+                    <p>
+                        Simple tools to help donors share surplus food and
+                        help communities discover available donations.
+                    </p>
+                </div>
+
+                <div class="feature-grid">
+                    <article class="feature-card">
+                        <div class="feature-icon">🥗</div>
+                        <h3>Donate Food</h3>
+                        <p>
+                            Add a donation with its quantity, pickup location
+                            and safe-until time.
+                        </p>
+                        <a href="/donate" class="text-link">Create a donation →</a>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3>Discover Nearby Food</h3>
+                        <p>
+                            Explore available food donations near your location
+                            when GPS coordinates are available.
+                        </p>
+                        <a href="/nearby" class="text-link">Explore nearby food →</a>
+                    </article>
+
+                    <article class="feature-card">
+                        <div class="feature-icon">📋</div>
+                        <h3>Track Donations</h3>
+                        <p>
+                            View listed donations and check their current
+                            availability status.
+                        </p>
+                        <a href="/donations" class="text-link">View donations →</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="how-it-works">
+            <div class="container">
+                <div class="section-heading">
+                    <div class="section-label">Three simple steps</div>
+                    <h2>From surplus to shared.</h2>
+                    <p>A simple process to help good food find a useful purpose.</p>
+                </div>
+
+                <div class="steps-grid">
+                    <article class="step">
+                        <div class="step-number">1</div>
+                        <h3>List Your Food</h3>
+                        <p>Enter the food name, quantity, pickup location and safe-until time.</p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">2</div>
+                        <h3>Discover Donations</h3>
+                        <p>Browse available food listings and find donations that suit your needs.</p>
+                    </article>
+
+                    <article class="step">
+                        <div class="step-number">3</div>
+                        <h3>Share Responsibly</h3>
+                        <p>Coordinate collection and keep donation status up to date.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <div class="cta-box">
+                    <h2>Have extra food? Share the good.</h2>
+                    <p>
+                        One donation can make a meaningful difference.
+                        Join the movement to reduce food waste and build
+                        more caring communities.
+                    </p>
+                    <a href="/donate" class="btn">Start Donating Today →</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="/" class="brand">
+                        <span class="brand-icon">🥗</span>
+                        <span class="brand-name">Surplus<span style="color:#91d6a2">Sync</span></span>
+                    </a>
+                    <p>
+                        Good food deserves a second chance. Together, we can
+                        reduce waste, share resources and build stronger communities.
+                    </p>
+                </div>
+
+                <nav class="footer-links" aria-label="Footer navigation">
+                    <a href="/">Home</a>
+                    <a href="/donate">Donate Food</a>
+                    <a href="/donations">Donations</a>
+                    <a href="/nearby">Nearby Food</a>
+                    <a href="#features">Features</a>
+                </nav>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© <span id="year"></span> SurplusSync. All rights reserved.</span>
+                <span>Good Food · Less Waste · Happier Communities 🌱</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById("menuToggle");
+        const navLinks = document.getElementById("navLinks");
+
+        menuToggle.addEventListener("click", function () {
+            const isOpen = navLinks.classList.toggle("open");
+            menuToggle.setAttribute("aria-expanded", String(isOpen));
+            menuToggle.textContent = isOpen ? "✕" : "☰";
+        });
+
+        navLinks.querySelectorAll("a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                navLinks.classList.remove("open");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.textContent = "☰";
+            });
+        });
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+    </script>
+</body>
+</html>
